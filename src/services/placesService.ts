@@ -1,12 +1,6 @@
-// src/services/placesService.ts
-
 import {Place} from '../types';
 import {addToSearchHistory} from '../utils/storage';
 
-/**
- * Save place to history
- * @param place - Place data to save
- */
 export const savePlaceToHistory = async (place: Place): Promise<void> => {
   try {
     await addToSearchHistory(place);
@@ -15,11 +9,6 @@ export const savePlaceToHistory = async (place: Place): Promise<void> => {
   }
 };
 
-/**
- * Convert Google Place data to our Place interface
- * @param placeData - Data from Google Places API
- * @returns Formatted Place object
- */
 export const formatGooglePlace = (placeData: any): Place => {
   return {
     id: placeData.place_id || String(Date.now()),
