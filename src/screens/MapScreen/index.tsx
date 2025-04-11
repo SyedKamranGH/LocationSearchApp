@@ -1,15 +1,16 @@
 // src/screens/MapScreen/index.tsx
 
-import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
-import MapComponent from '../../components/MapView';
-import SearchInput from '../../components/SearchInput';
-import HistoryList from '../../components/HistoryList';
-import {Region, Place} from '../../types';
-import {getSearchHistory} from '../../utils/storage';
-import {savePlaceToHistory} from '../../services/placesService';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity, Text } from 'react-native';
+import MapComponent from 'components/MapView';
+import SearchInput from 'components/SearchInput';
+import HistoryList from 'components/HistoryList';
+import { Region, Place } from 'types';
+import { getSearchHistory } from 'utils/storage';
+import { savePlaceToHistory } from 'services/placesService';
 import styles from './styles';
-import {LAHORE_PIN} from '../../constants/defaultLocation';
+import { LAHORE_PIN } from 'constants/defaultLocation';
+import { MapPressEvent } from 'react-native-maps';
 
 const MapScreen: React.FC = () => {
   // Initial map region (default: San Francisco)
@@ -52,12 +53,16 @@ const MapScreen: React.FC = () => {
     setShowHistory(!showHistory);
   };
 
+  const handleMapPress = ({ nativeEvent: { coordinate } }: MapPressEvent) => {
+    console.log('coordinate', coordinate);
+  };
+
   return (
     <View style={styles.container}>
       <MapComponent
         region={region}
         selectedPlace={selectedPlace}
-        onRegionChange={setRegion}
+        onPress={handleMapPress}
       />
 
       <SearchInput onPlaceSelected={handlePlaceSelected} />

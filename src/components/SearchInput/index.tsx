@@ -1,46 +1,57 @@
-import React from 'react';
-import {View} from 'react-native';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import {GOOGLE_MAPS_API_KEY} from '@env';
-import {formatGooglePlace} from '../../services/placesService';
-import {Place} from '../../types';
+import React, { memo, useCallback } from 'react';
+import { View } from 'react-native';
+import {
+  GooglePlaceData,
+  GooglePlaceDetail,
+  GooglePlacesAutocomplete,
+  Styles,
+} from 'react-native-google-places-autocomplete';
+import { formatGooglePlace } from 'services/placesService';
 import styles from './styles';
+import {
+  googleAutocompleteQuery,
+  predefinedPlaces,
+  textInputProps,
+} from './config';
+import { SearchInputProps } from './types';
 
-interface SearchInputProps {
-  onPlaceSelected: (place: Place) => void;
-}
+const autocompleteStyles: Partial<Styles> = {
+  textInputContainer: styles.textInputContainer,
+  textInput: styles.textInput,
+  listView: styles.listView,
+};
 
-const SearchInput: React.FC<SearchInputProps> = ({onPlaceSelected}) => {
+const SearchInput: React.FC<SearchInputProps> = ({ onPlaceSelected }) => {
+  const handlePress = useCallback(
+    (data: GooglePlaceData, details: GooglePlaceDetail | null) => {
+      if (details) {
+        const formattedPlace = formatGooglePlace({
+          ...data,
+          ...details,
+          geometry: details.geometry,
+          place_id: data.place_id,
+        });
+        onPlaceSelected(formattedPlace);
+      }
+    },
+    [onPlaceSelected],
+  );
+
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete
         placeholder="Search for a location..."
         fetchDetails={true}
-        onPress={(data, details = null) => {
-          if (details) {
-            const formattedPlace = formatGooglePlace({
-              ...data,
-              ...details,
-              geometry: details.geometry,
-              place_id: data.place_id,
-            });
-            onPlaceSelected(formattedPlace);
-          }
-        }}
-        query={{
-          key: GOOGLE_MAPS_API_KEY,
-          language: 'en',
-        }}
-        styles={{
-          textInputContainer: styles.textInputContainer,
-          textInput: styles.textInput,
-          listView: styles.listView,
-        }}
+        onPress={handlePress}
+        query={googleAutocompleteQuery}
+        styles={autocompleteStyles}
+        predefinedPlaces={predefinedPlaces}
         enablePoweredByContainer={false}
         debounce={300}
+        textInputProps={textInputProps}
       />
     </View>
   );
 };
 
-export default SearchInput;
+export default memo(SearchInput);

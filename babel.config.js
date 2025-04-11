@@ -1,5 +1,5 @@
 module.exports = {
-  presets: ['module:metro-react-native-babel-preset'],
+  presets: ['module:@react-native/babel-preset'],
   plugins: [
     [
       'module:react-native-dotenv',
@@ -10,6 +10,36 @@ module.exports = {
         whitelist: null,
         safe: false,
         allowUndefined: true,
+      },
+    ],
+    [
+      'module-resolver',
+      {
+        cwd: 'babelrc',
+        extensions: [
+          '.js',
+          '.jsx',
+          '.ts',
+          '.tsx',
+          '.android.js',
+          '.android.tsx',
+          '.ios.js',
+          '.ios.tsx',
+        ],
+        alias: {
+          'type/*': ['types/*'],
+          'api/*': ['api/*'],
+          'constants/*': ['/constants/*'],
+          'hooks/*': ['hooks/*'],
+          'components/*': ['components/*'],
+          'navigation/*': ['navigation/*'],
+          'screens/*': ['screen/*'],
+          'assets/*': ['assets/*'],
+          'config/*': ['config/*'],
+          'services/*': ['services/*'],
+          'utils/*': ['utils/*'],
+        },
+        root: ['./src'],
       },
     ],
   ],

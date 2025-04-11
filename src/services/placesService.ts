@@ -1,5 +1,5 @@
-import {Place} from '../types';
-import {addToSearchHistory} from '../utils/storage';
+import { Place } from 'types';
+import { addToSearchHistory } from 'utils/storage';
 
 export const savePlaceToHistory = async (place: Place): Promise<void> => {
   try {

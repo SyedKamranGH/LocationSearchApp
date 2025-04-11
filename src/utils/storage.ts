@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Place} from '../types';
+import { Place } from 'types';
 
 const HISTORY_KEY = 'SEARCH_HISTORY';
 

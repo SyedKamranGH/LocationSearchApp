@@ -1,11 +1,10 @@
+import { LatLng } from 'react-native-maps';
+
 export interface Place {
   id: string;
   name: string;
   address: string;
-  location: {
-    latitude: number;
-    longitude: number;
-  };
+  location: LatLng;
   timestamp: number;
 }
 

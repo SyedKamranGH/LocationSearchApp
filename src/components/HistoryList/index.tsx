@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
-import {Place} from '../../types';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { Place } from 'types';
 import styles from './styles';
 
 interface HistoryListProps {
@@ -14,13 +14,15 @@ const HistoryList: React.FC<HistoryListProps> = ({
   onPlaceSelect,
   visible,
 }) => {
-  if (!visible) return null;
+  if (!visible) {
+    return null;
+  }
 
   const formatDate = (timestamp: number): string => {
     return new Date(timestamp).toLocaleString();
   };
 
-  const renderItem = ({item}: {item: Place}) => (
+  const renderItem = ({ item }: { item: Place }) => (
     <TouchableOpacity
       style={styles.historyItem}
       onPress={() => onPlaceSelect(item)}>

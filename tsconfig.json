@@ -1,3 +1,31 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json"
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES7"],
+    "baseUrl": "./src",
+    "esModuleInterop": true,
+    "paths": {
+      "types/*": ["types/*"],
+      "types": ["types/index"],
+      "constants/*": ["constants/*"],
+      "hooks/*": ["hooks/*"],
+      "components/*": ["components/*"],
+      "navigation/*": ["navigation/*"],
+      "screen/*": ["screen/*"],
+      "config/*": ["config/*"],
+      "config": ["config/index"],
+      "services/*": ["services/*"],
+      "services": ["services/index"],
+      "utils/*": ["utils/*"],
+      "assets/*": ["assets/*"]
+    }
+  },
+  "include": [
+    "**/**/**/*.ts",
+    "**/**/**/*.tsx",
+    "./eslint.config.mjs",
+    "src/types/index.ts",
+    "index.js",
+    "./.prettierrc.js"
+  ]
 }

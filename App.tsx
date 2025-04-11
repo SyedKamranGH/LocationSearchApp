@@ -1,13 +1,13 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import MapScreen from './src/screens/MapScreen';
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <MapScreen />
-    </SafeAreaView>
+    </View>
   );
 };
 
