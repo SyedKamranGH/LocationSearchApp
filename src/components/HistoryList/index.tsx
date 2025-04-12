@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { Place } from 'types';
 import styles from './styles';
@@ -9,46 +9,56 @@ interface HistoryListProps {
   visible: boolean;
 }
 
-const HistoryList: React.FC<HistoryListProps> = ({
-  history,
-  onPlaceSelect,
-  visible,
-}) => {
-  if (!visible) {
-    return null;
-  }
+const formatDate = (timestamp: number): string => {
+  return new Date(timestamp).toLocaleString();
+};
 
-  const formatDate = (timestamp: number): string => {
-    return new Date(timestamp).toLocaleString();
-  };
-
-  const renderItem = ({ item }: { item: Place }) => (
-    <TouchableOpacity
-      style={styles.historyItem}
-      onPress={() => onPlaceSelect(item)}>
+const HistoryItem = memo(
+  ({ item, onSelect }: { item: Place; onSelect: (place: Place) => void }) => (
+    <TouchableOpacity style={styles.historyItem} onPress={() => onSelect(item)}>
       <View style={styles.historyItemContent}>
         <Text style={styles.historyItemName}>{item.name}</Text>
         <Text style={styles.historyItemAddress}>{item.address}</Text>
         <Text style={styles.historyItemDate}>{formatDate(item.timestamp)}</Text>
       </View>
     </TouchableOpacity>
+  ),
+);
+
+const EmptyListComponent = () => (
+  <Text style={styles.emptyText}>No search history yet</Text>
+);
+
+const HistoryList: React.FC<HistoryListProps> = ({
+  history,
+  onPlaceSelect,
+  visible,
+}) => {
+  const keyExtractor = useCallback((item: Place) => item.id, []);
+
+  const renderItem = useCallback(
+    ({ item }: { item: Place }) => (
+      <HistoryItem item={item} onSelect={onPlaceSelect} />
+    ),
+    [onPlaceSelect],
   );
+
+  if (!visible) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.historyTitle}>Search History</Text>
-      {history.length === 0 ? (
-        <Text style={styles.emptyText}>No search history yet</Text>
-      ) : (
-        <FlatList
-          data={history}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          style={styles.list}
-        />
-      )}
+      <FlatList
+        data={history}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        style={styles.list}
+        ListEmptyComponent={EmptyListComponent}
+      />
     </View>
   );
 };
 
-export default HistoryList;
+export default memo(HistoryList);

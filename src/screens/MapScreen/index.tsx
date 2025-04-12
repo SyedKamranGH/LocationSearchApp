@@ -1,6 +1,4 @@
-// src/screens/MapScreen/index.tsx
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import MapComponent from 'components/MapView';
 import SearchInput from 'components/SearchInput';
@@ -13,25 +11,19 @@ import { LAHORE_PIN } from 'constants/defaultLocation';
 import { MapPressEvent } from 'react-native-maps';
 
 const MapScreen: React.FC = () => {
-  // Initial map region (default: San Francisco)
   const [region, setRegion] = useState<Region>(LAHORE_PIN);
-
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
-
   const [searchHistory, setSearchHistory] = useState<Place[]>([]);
-
   const [showHistory, setShowHistory] = useState<boolean>(false);
 
   useEffect(() => {
-    const loadHistory = async () => {
+    (async () => {
       const history = await getSearchHistory();
       setSearchHistory(history);
-    };
-
-    loadHistory();
+    })();
   }, []);
 
-  const handlePlaceSelected = async (place: Place) => {
+  const handlePlaceSelected = useCallback(async (place: Place) => {
     setSelectedPlace(place);
 
     setRegion({
@@ -45,17 +37,19 @@ const MapScreen: React.FC = () => {
 
     const updatedHistory = await getSearchHistory();
     setSearchHistory(updatedHistory);
-
     setShowHistory(false);
-  };
+  }, []);
 
-  const toggleHistory = () => {
-    setShowHistory(!showHistory);
-  };
+  const toggleHistory = useCallback(() => {
+    setShowHistory(prev => !prev);
+  }, []);
 
-  const handleMapPress = ({ nativeEvent: { coordinate } }: MapPressEvent) => {
-    console.log('coordinate', coordinate);
-  };
+  const handleMapPress = useCallback(
+    ({ nativeEvent: { coordinate } }: MapPressEvent) => {
+      console.log('Map pressed at:', coordinate);
+    },
+    [],
+  );
 
   return (
     <View style={styles.container}>
