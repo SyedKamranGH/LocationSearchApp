@@ -1,19 +1,29 @@
 import React, { memo, useCallback } from 'react';
-import { View } from 'react-native';
+import { View, TextInputProps } from 'react-native';
 import {
   GooglePlaceData,
   GooglePlaceDetail,
   GooglePlacesAutocomplete,
+  Place,
   Styles,
 } from 'react-native-google-places-autocomplete';
+import { GOOGLE_MAPS_API_KEY } from 'config';
 import { formatGooglePlace } from 'services/placesService';
 import styles from './styles';
-import {
-  googleAutocompleteQuery,
-  predefinedPlaces,
-  textInputProps,
-} from './config';
 import { SearchInputProps } from './types';
+
+const googleAutocompleteQuery = {
+  key: GOOGLE_MAPS_API_KEY,
+  language: 'en',
+};
+
+// const googleAutocompleteInputTextProps = {
+//   placeholderTextColor: 'grey',
+//   returnKeyType: 'search',
+// };
+
+const predefinedPlaces: Place[] = [];
+const textInputProps: TextInputProps = {};
 
 const autocompleteStyles: Partial<Styles> = {
   textInputContainer: styles.textInputContainer,
