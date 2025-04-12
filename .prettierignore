@@ -1,0 +1,18 @@
+# Build directories
+android/
+ios/
+build/
+dist/
+
+# Node modules
+node_modules/
+
+# Generated files
+*.generated.*
+*.lock
+yarn.lock
+package-lock.json
+
+# Other files to ignore
+coverage/
+.env
