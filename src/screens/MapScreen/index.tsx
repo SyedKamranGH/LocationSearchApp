@@ -1,5 +1,3 @@
-// src/screens/MapScreen/index.tsx
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import MapComponent from 'components/MapView';
