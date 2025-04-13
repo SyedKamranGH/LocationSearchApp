@@ -1,29 +1,23 @@
+// src/components/SearchInput/index.tsx
 import React, { memo, useCallback } from 'react';
 import { View } from 'react-native';
-import {
-  GooglePlaceData,
-  GooglePlaceDetail,
-  GooglePlacesAutocomplete,
-  Styles,
-} from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { formatGooglePlace } from 'services/placesService';
 import styles from './styles';
-import {
-  googleAutocompleteQuery,
-  predefinedPlaces,
-  textInputProps,
-} from './config';
-import { SearchInputProps } from './types';
-
-const autocompleteStyles: Partial<Styles> = {
-  textInputContainer: styles.textInputContainer,
-  textInput: styles.textInput,
-  listView: styles.listView,
-};
+import { searchInputConfig } from './config';
+import { SearchInputProps, HandlePressParams } from './types';
 
 const SearchInput: React.FC<SearchInputProps> = ({ onPlaceSelected }) => {
+  const {
+    query,
+    predefinedPlaces,
+    autocompleteStyles,
+    textInputProps,
+    debounceDelay,
+  } = searchInputConfig;
+
   const handlePress = useCallback(
-    (data: GooglePlaceData, details: GooglePlaceDetail | null) => {
+    ({ data, details }: HandlePressParams) => {
       if (details) {
         const formattedPlace = formatGooglePlace({
           ...data,
@@ -42,12 +36,12 @@ const SearchInput: React.FC<SearchInputProps> = ({ onPlaceSelected }) => {
       <GooglePlacesAutocomplete
         placeholder="Search for a location..."
         fetchDetails={true}
-        onPress={handlePress}
-        query={googleAutocompleteQuery}
+        onPress={(data, details) => handlePress({ data, details })}
+        query={query}
         styles={autocompleteStyles}
         predefinedPlaces={predefinedPlaces}
         enablePoweredByContainer={false}
-        debounce={300}
+        debounce={debounceDelay}
         textInputProps={textInputProps}
       />
     </View>

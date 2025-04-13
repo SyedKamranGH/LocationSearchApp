@@ -1,15 +1,45 @@
+// src/components/SearchInput/config.ts
 import { GOOGLE_MAPS_API_KEY } from 'config';
-import { TextInputProps } from 'react-native';
-import { Place } from 'react-native-google-places-autocomplete';
+import {
+  Place,
+  Query,
+  Language,
+} from 'react-native-google-places-autocomplete';
+import { TextInputProps, ReturnKeyTypeOptions } from 'react-native';
+import { GoogleAutocompleteConfig } from './types';
+import styles from './styles';
 
-export const googleAutocompleteQuery = {
-  key: GOOGLE_MAPS_API_KEY,
-  language: 'en',
+// Fix the query object to use proper types
+const googleAutocompleteQuery: Query = {
+  key: GOOGLE_MAPS_API_KEY || '',
+  language: 'en' as Language, // Type assertion to Language type
 };
-export const googleAutocompleteInputTextProps = {
+
+const predefinedPlaces: Place[] = [];
+
+const autocompleteStyles = {
+  textInputContainer: styles.textInputContainer,
+  textInput: styles.textInput,
+  listView: styles.listView,
+};
+
+const textInputProps: TextInputProps = {
   placeholderTextColor: 'grey',
-  returnKeyType: 'search',
+  returnKeyType: 'search' as ReturnKeyTypeOptions,
 };
 
-export const predefinedPlaces: Place[] = [];
-export const textInputProps: TextInputProps = {};
+const filterReverseGeocodingByTypes = [
+  'locality',
+  'administrative_area_level_3',
+];
+
+const debounceDelay = 300;
+
+export const searchInputConfig: GoogleAutocompleteConfig = {
+  query: googleAutocompleteQuery,
+  predefinedPlaces,
+  autocompleteStyles,
+  textInputProps,
+  debounceDelay,
+  filterReverseGeocodingByTypes,
+};
