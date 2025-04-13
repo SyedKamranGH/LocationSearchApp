@@ -1,17 +1,7 @@
 import React from 'react';
-import MapView, {
-  MapPressEvent,
-  Marker,
-  PROVIDER_GOOGLE,
-} from 'react-native-maps';
-import { Region, Place } from 'types';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import styles from './styles';
-
-interface MapComponentProps {
-  region: Region;
-  selectedPlace: Place | null;
-  onPress?: (event: MapPressEvent) => void;
-}
+import { MapComponentProps } from './types';
 
 const MapComponent: React.FC<MapComponentProps> = ({
   region,
