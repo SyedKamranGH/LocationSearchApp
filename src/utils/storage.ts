@@ -2,37 +2,38 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Place } from 'types';
 
 const HISTORY_KEY = 'SEARCH_HISTORY';
-const MAX_HISTORY_ITEMS = 10;
 
-export const saveSearchHistory = async (history: Place[]): Promise<void> => {
+export const saveSearchHistory = async (history: Place[]) => {
   try {
-    await AsyncStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    const jsonValue = JSON.stringify(history);
+    await AsyncStorage.setItem(HISTORY_KEY, jsonValue);
   } catch (error) {
-    console.error('[Storage] Failed to save search history:', error);
+    console.error('Error saving search history:', error);
   }
 };
 
 export const getSearchHistory = async (): Promise<Place[]> => {
   try {
     const jsonValue = await AsyncStorage.getItem(HISTORY_KEY);
-    if (!jsonValue) return [];
-    return JSON.parse(jsonValue) as Place[];
+    return jsonValue != null ? JSON.parse(jsonValue) : [];
   } catch (error) {
-    console.error('[Storage] Failed to retrieve search history:', error);
+    console.error('Error getting search history:', error);
     return [];
   }
 };
 
-export const addToSearchHistory = async (newPlace: Place): Promise<void> => {
+export const addToSearchHistory = async (place: Place) => {
   try {
     const history = await getSearchHistory();
+    const exists = history.some(item => item.id === place.id);
 
-    const alreadyExists = history.some(place => place.id === newPlace.id);
-    if (alreadyExists) return;
+    if (!exists) {
+      const updatedHistory = [place, ...history];
+      const limitedHistory = updatedHistory.slice(0, 10);
 
-    const updatedHistory = [newPlace, ...history].slice(0, MAX_HISTORY_ITEMS);
-    await saveSearchHistory(updatedHistory);
+      await saveSearchHistory(limitedHistory);
+    }
   } catch (error) {
-    console.error('[Storage] Failed to add place to history:', error);
+    console.error('Error adding to search history:', error);
   }
 };

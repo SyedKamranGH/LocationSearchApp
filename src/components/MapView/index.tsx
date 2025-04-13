@@ -1,35 +1,13 @@
-import React, { useMemo } from 'react';
-import MapView, {
-  MapPressEvent,
-  Marker,
-  PROVIDER_GOOGLE,
-} from 'react-native-maps';
-import { Region, Place } from 'types';
+import React from 'react';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import styles from './styles';
-
-interface MapComponentProps {
-  region: Region;
-  selectedPlace: Place | null;
-  onPress?: (event: MapPressEvent) => void;
-}
+import { MapComponentProps } from './types';
 
 const MapComponent: React.FC<MapComponentProps> = ({
   region,
   selectedPlace,
   onPress,
 }) => {
-  const markerElement = useMemo(() => {
-    if (!selectedPlace) return null;
-
-    return (
-      <Marker
-        coordinate={selectedPlace.location}
-        title={selectedPlace.name}
-        description={selectedPlace.address}
-      />
-    );
-  }, [selectedPlace]);
-
   return (
     <MapView
       provider={PROVIDER_GOOGLE}
@@ -37,9 +15,15 @@ const MapComponent: React.FC<MapComponentProps> = ({
       showsUserLocation={true}
       initialRegion={region}
       onPress={onPress}>
-      {markerElement}
+      {selectedPlace && (
+        <Marker
+          coordinate={selectedPlace.location}
+          title={selectedPlace.name}
+          description={selectedPlace.address}
+        />
+      )}
     </MapView>
   );
 };
 
-export default React.memo(MapComponent);
+export default MapComponent;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View } from 'react-native';
 import MapComponent from 'components/MapView';
 import SearchInput from 'components/SearchInput';
 import HistoryList from 'components/HistoryList';
@@ -9,6 +9,7 @@ import { savePlaceToHistory } from 'services/placesService';
 import styles from './styles';
 import { LAHORE_PIN } from 'constants/defaultLocation';
 import { MapPressEvent } from 'react-native-maps';
+import HistoryToggleButton from './components/HistoryToggleButton';
 
 const MapScreen: React.FC = () => {
   const [region, setRegion] = useState<Region>(LAHORE_PIN);
@@ -16,11 +17,13 @@ const MapScreen: React.FC = () => {
   const [searchHistory, setSearchHistory] = useState<Place[]>([]);
   const [showHistory, setShowHistory] = useState<boolean>(false);
 
+  const loadHistory = async () => {
+    const history = await getSearchHistory();
+    setSearchHistory(history);
+  };
+
   useEffect(() => {
-    (async () => {
-      const history = await getSearchHistory();
-      setSearchHistory(history);
-    })();
+    loadHistory();
   }, []);
 
   const handlePlaceSelected = useCallback(async (place: Place) => {
@@ -34,22 +37,18 @@ const MapScreen: React.FC = () => {
     });
 
     await savePlaceToHistory(place);
-
     const updatedHistory = await getSearchHistory();
     setSearchHistory(updatedHistory);
     setShowHistory(false);
   }, []);
 
-  const toggleHistory = useCallback(() => {
-    setShowHistory(prev => !prev);
-  }, []);
+  const toggleHistory = () => {
+    setShowHistory(prevState => !prevState);
+  };
 
-  const handleMapPress = useCallback(
-    ({ nativeEvent: { coordinate } }: MapPressEvent) => {
-      console.log('Map pressed at:', coordinate);
-    },
-    [],
-  );
+  const handleMapPress = (_event: MapPressEvent) => {
+    // If you need logging in development, consider using a logger utility or conditional logging or require to implement something with coordinate
+  };
 
   return (
     <View style={styles.container}>
@@ -61,11 +60,7 @@ const MapScreen: React.FC = () => {
 
       <SearchInput onPlaceSelected={handlePlaceSelected} />
 
-      <TouchableOpacity style={styles.historyButton} onPress={toggleHistory}>
-        <Text style={styles.historyButtonText}>
-          {showHistory ? 'Hide History' : 'Show History'}
-        </Text>
-      </TouchableOpacity>
+      <HistoryToggleButton showHistory={showHistory} onToggle={toggleHistory} />
 
       <View style={styles.historyContainer}>
         <HistoryList
@@ -78,4 +73,4 @@ const MapScreen: React.FC = () => {
   );
 };
 
-export default MapScreen;
+export default React.memo(MapScreen);
