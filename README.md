@@ -1,97 +1,169 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# LocationSearchApp
 
-# Getting Started
+A React Native application that allows users to search for locations, view them on a map, and maintain a search history.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Table of Contents
 
-## Step 1: Start Metro
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Running the Application](#running-the-application)
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [Troubleshooting](#troubleshooting)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Prerequisites
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+Before you begin, ensure you have the following installed on your development machine:
 
-```sh
-# Using npm
-npm start
+- Node.js (v20.x)
+- Yarn package manager
+- iOS development environment:
+  - macOS
+  - Xcode (latest version)
+  - CocoaPods
+- Android development environment:
+  - Android Studio
+  - JDK 11 or newer
+  - Android SDK
 
-# OR using Yarn
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/SyedKamranGH/LocationSearchApp.git
+cd LocationSearchApp
+```
+
+2. Install dependencies:
+
+```bash
+yarn install
+```
+
+3. Install iOS dependencies (macOS only):
+
+```bash
+cd ios
+pod install
+cd ..
+```
+
+## Configuration
+
+The application requires a Google API key for location services:
+
+1. Create a `.env` file in the root directory of the project
+2. Add your Google API key in the following format:
+
+```
+GOOGLE_API_KEY=your_google_api_key_here
+```
+
+> **Note:** You need to have the Places API and Maps SDK enabled in your Google Cloud Console project.
+
+## Running the Application
+
+This project uses React Native CLI with Metro bundler (not Expo).
+
+### Start Metro Bundler
+
+```bash
 yarn start
 ```
 
-## Step 2: Build and run your app
+### Run on iOS
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
+```bash
 yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+### Run on Android
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```bash
+yarn android
+```
 
-## Step 3: Modify your app
+## Project Structure
 
-Now that you have successfully run the app, let's make changes!
+```
+LocationSearchApp/
+├── src/
+│   ├── components/
+│   │   ├── HistoryList/
+│   │   ├── MapView/
+│   │   └── SearchInput/
+│   ├── constants/
+│   │   └── defaultLocation.ts
+│   ├── screens/
+│   │   └── MapScreen/
+│   │       ├── components/
+│   │       │   └── HistoryToggleButton.tsx
+│   │       ├── types.ts
+│   │       ├── styles.ts
+│   │       └── index.tsx
+│   ├── services/
+│   │   └── placesService.ts
+│   ├── types/
+│   │   └── index.ts
+│   └── utils/
+│       └── storage.ts
+├── .env
+├── App.tsx
+└── package.json
+```
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## Features
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+- **Location Search**: Search for locations using Google Places API
+- **Map View**: View selected locations on a map
+- **Search History**: Maintain and view your search history
+- **Optimized Performance**: Components are memoized for optimal performance
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## Troubleshooting
 
-## Congratulations! :tada:
+### Common Issues
 
-You've successfully run and modified your React Native App. :partying_face:
+1. **Missing Google API Key**:
+   - Ensure you have created a `.env` file with the proper Google API key
+   - Check that your API key has the necessary permissions enabled
 
-### Now what?
+2. **Build Errors**:
+   - Make sure you're using Node.js v20.x
+   - Clean project and reinstall dependencies:
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+     ```bash
+     yarn clean
+     yarn install
+     ```
 
-# Troubleshooting
+3. **iOS Specific Issues**:
+   - Ensure CocoaPods is properly installed and updated
+   - Try reinstalling pods:
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+     ```bash
+     cd ios
+     pod deintegrate
+     pod install
+     ```
 
-# Learn More
+4. **Android Specific Issues**:
+   - Check that your Android SDK is properly configured
+   - Ensure you have JDK 11 or newer installed
 
-To learn more about React Native, take a look at the following resources:
+For any other issues, please open an issue on the [GitHub repository](https://github.com/SyedKamranGH/LocationSearchApp/issues).
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## Additional Resources
+
+- [React Native Documentation](https://reactnative.dev/docs/getting-started)
+- [React Native Maps](https://github.com/react-native-maps/react-native-maps)
+- [Google Places API Documentation](https://developers.google.com/maps/documentation/places/web-service/overview)
+
+## License
+
+This project is licensed under the MIT License.
+
+## 👤 Author
+
+Syed Kamran
