@@ -1,49 +1,38 @@
-import React from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import React, { memo, useCallback } from 'react';
+import { View, Text, FlatList } from 'react-native';
 import { Place } from 'types';
 import styles from './styles';
-
-interface HistoryListProps {
-  history: Place[];
-  onPlaceSelect: (place: Place) => void;
-  visible: boolean;
-}
+import { HistoryListProps } from './types';
+import HistoryItem from './components/HistoryItem';
+import EmptyList from 'components/EmptyList';
+import { getItemKey } from 'utils/getItemKey';
 
 const HistoryList: React.FC<HistoryListProps> = ({
   history,
   onPlaceSelect,
   visible,
 }) => {
+  const renderItem = useCallback(
+    ({ item }: { item: Place }) => (
+      <HistoryItem item={item} onPress={onPlaceSelect} />
+    ),
+    [onPlaceSelect],
+  );
+
   if (!visible) {
     return null;
   }
-
-  const formatDate = (timestamp: number): string => {
-    return new Date(timestamp).toLocaleString();
-  };
-
-  const renderItem = ({ item }: { item: Place }) => (
-    <TouchableOpacity
-      style={styles.historyItem}
-      onPress={() => onPlaceSelect(item)}>
-      <View style={styles.historyItemContent}>
-        <Text style={styles.historyItemName}>{item.name}</Text>
-        <Text style={styles.historyItemAddress}>{item.address}</Text>
-        <Text style={styles.historyItemDate}>{formatDate(item.timestamp)}</Text>
-      </View>
-    </TouchableOpacity>
-  );
 
   return (
     <View style={styles.container}>
       <Text style={styles.historyTitle}>Search History</Text>
       {history.length === 0 ? (
-        <Text style={styles.emptyText}>No search history yet</Text>
+        <EmptyList message="No search history yet" />
       ) : (
         <FlatList
           data={history}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={getItemKey}
           style={styles.list}
         />
       )}
@@ -51,4 +40,4 @@ const HistoryList: React.FC<HistoryListProps> = ({
   );
 };
 
-export default HistoryList;
+export default memo(HistoryList);
