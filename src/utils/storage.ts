@@ -3,7 +3,7 @@ import { Place } from 'types';
 
 const HISTORY_KEY = 'SEARCH_HISTORY';
 
-export const saveSearchHistory = async (history: Place[]): Promise<void> => {
+export const saveSearchHistory = async (history: Place[]) => {
   try {
     const jsonValue = JSON.stringify(history);
     await AsyncStorage.setItem(HISTORY_KEY, jsonValue);
@@ -22,7 +22,7 @@ export const getSearchHistory = async (): Promise<Place[]> => {
   }
 };
 
-export const addToSearchHistory = async (place: Place): Promise<void> => {
+export const addToSearchHistory = async (place: Place) => {
   try {
     const history = await getSearchHistory();
     const exists = history.some(item => item.id === place.id);
