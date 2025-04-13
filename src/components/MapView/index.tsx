@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import MapView, {
   MapPressEvent,
   Marker,
@@ -18,18 +18,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
   selectedPlace,
   onPress,
 }) => {
-  const markerElement = useMemo(() => {
-    if (!selectedPlace) return null;
-
-    return (
-      <Marker
-        coordinate={selectedPlace.location}
-        title={selectedPlace.name}
-        description={selectedPlace.address}
-      />
-    );
-  }, [selectedPlace]);
-
   return (
     <MapView
       provider={PROVIDER_GOOGLE}
@@ -37,9 +25,15 @@ const MapComponent: React.FC<MapComponentProps> = ({
       showsUserLocation={true}
       initialRegion={region}
       onPress={onPress}>
-      {markerElement}
+      {selectedPlace && (
+        <Marker
+          coordinate={selectedPlace.location}
+          title={selectedPlace.name}
+          description={selectedPlace.address}
+        />
+      )}
     </MapView>
   );
 };
 
-export default React.memo(MapComponent);
+export default MapComponent;
