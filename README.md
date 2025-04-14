@@ -2,6 +2,13 @@
 
 A React Native application that allows users to search for locations, view them on a map, and maintain a search history.
 
+## Features
+
+- 🗺️ Google Maps integration
+- 🔍 Location search with Google Places Autocomplete
+- 📝 Search history tracking and management
+- 📱 Cross-platform (iOS and Android) compatibility
+
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
@@ -54,12 +61,33 @@ cd ..
 
 The application requires a Google API key for location services:
 
-1. Create a `.env` file in the root directory of the project
-2. Add your Google API key in the following format:
+- Create a `.env` file in the root directory with the following content:
 
-```
-GOOGLE_API_KEY=your_google_api_key_here
-```
+     ```
+     GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+     ```
+
+- For iOS, update the API key in `ios/AppDelegate.m` or `ios/AppDelegate.mm`:
+
+     ```objective-c
+     [GMSServices provideAPIKey:@"your_google_maps_api_key_here"];
+     ```
+
+- For Android, update the API key in `android/app/src/main/AndroidManifest.xml`:
+
+     ```xml
+     <meta-data
+       android:name="com.google.android.geo.API_KEY"
+       android:value="your_google_maps_api_key_here"/>
+     ```
+
+### Google Maps API Key
+
+You need to obtain a Google Maps API key from the [Google Cloud Console](https://console.cloud.google.com/). The API key should have access to:
+
+- Maps SDK for Android
+- Maps SDK for iOS
+- Places API
 
 > **Note:** You need to have the Places API and Maps SDK enabled in your Google Cloud Console project.
 
@@ -85,41 +113,39 @@ yarn ios
 yarn android
 ```
 
+### iOS Configuration
+
+1. Make sure you have CocoaPods installed.
+2. Update the API key in `ios/AppDelegate.m` or `ios/AppDelegate.mm`.
+3. Run `pod install` in the `ios` directory.
+4. Open the `.xcworkspace` file in Xcode.
+5. Ensure your deployment target and team are set correctly.
+
+### Android Configuration
+
+1. Update the API key in `android/app/src/main/AndroidManifest.xml`.
+2. Make sure you have the required dependencies in `android/app/build.gradle`.
+3. Ensure your SDK version is properly configured in `android/build.gradle`.
+
 ## Project Structure
 
 ```
-LocationSearchApp/
+├── App.tsx                      # Main application component
 ├── src/
-│   ├── components/
-│   │   ├── HistoryList/
-│   │   ├── MapView/
-│   │   └── SearchInput/
-│   ├── constants/
-│   │   └── defaultLocation.ts
-│   ├── screens/
-│   │   └── MapScreen/
-│   │       ├── components/
-│   │       │   └── HistoryToggleButton.tsx
-│   │       ├── types.ts
-│   │       ├── styles.ts
-│   │       └── index.tsx
-│   ├── services/
-│   │   └── placesService.ts
-│   ├── types/
-│   │   └── index.ts
-│   └── utils/
-│       └── storage.ts
-├── .env
-├── App.tsx
-└── package.json
+│   ├── components/              # Reusable components
+│   │   ├── EmptyList/           # Component for empty list state
+│   │   ├── HistoryList/         # Search history list component
+│   │   ├── MapView/             # Map component wrapper
+│   │   └── SearchInput/         # Search input with autocomplete
+│   ├── config/                  # Configuration files
+│   ├── constants/               # Application constants
+│   ├── hooks/                   # Custom React hooks
+│   ├── screens/                 # Screen components
+│   │   └── MapScreen/           # Main map screen
+│   ├── services/                # API and data services
+│   ├── types/                   # TypeScript type definitions
+│   └── utils/                   # Utility functions
 ```
-
-## Features
-
-- **Location Search**: Search for locations using Google Places API
-- **Map View**: View selected locations on a map
-- **Search History**: Maintain and view your search history
-- **Optimized Performance**: Components are memoized for optimal performance
 
 ## Troubleshooting
 
@@ -151,8 +177,6 @@ LocationSearchApp/
 4. **Android Specific Issues**:
    - Check that your Android SDK is properly configured
    - Ensure you have JDK 11 or newer installed
-
-For any other issues, please open an issue on the [GitHub repository](https://github.com/SyedKamranGH/LocationSearchApp/issues).
 
 ## Additional Resources
 
