@@ -3,7 +3,6 @@ import { View, Text, Pressable } from 'react-native';
 import styles from '../styles';
 import { HistoryItemProps } from '../types';
 import { formatDate } from 'utils/formatDate';
-// import { formatDate } from '../utils';
 
 const HistoryItem: React.FC<HistoryItemProps> = ({ item, onPress }) => {
   return (

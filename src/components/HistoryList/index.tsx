@@ -1,8 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import { View, Text, FlatList } from 'react-native';
-import { Place } from 'types';
 import styles from './styles';
-import { HistoryListProps } from './types';
+import { HistoryListProps, PlaceRenderItem } from './types';
 import HistoryItem from './components/HistoryItem';
 import EmptyList from 'components/EmptyList';
 import { getItemKey } from 'utils/getItemKey';
@@ -12,10 +11,8 @@ const HistoryList: React.FC<HistoryListProps> = ({
   onPlaceSelect,
   visible,
 }) => {
-  const renderItem = useCallback(
-    ({ item }: { item: Place }) => (
-      <HistoryItem item={item} onPress={onPlaceSelect} />
-    ),
+  const renderItem: PlaceRenderItem = useCallback(
+    ({ item }) => <HistoryItem item={item} onPress={onPlaceSelect} />,
     [onPlaceSelect],
   );
 
