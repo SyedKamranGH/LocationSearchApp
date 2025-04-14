@@ -1,5 +1,9 @@
 import { StyleSheet } from 'react-native';
 
+/**
+ * Styles for the MapScreen component and its child components.
+ */
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
