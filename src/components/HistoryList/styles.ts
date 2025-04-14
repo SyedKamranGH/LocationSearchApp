@@ -1,5 +1,9 @@
 import { StyleSheet } from 'react-native';
 
+/**
+ * Styles for the HistoryList component and its child components.
+ */
+
 const styles = StyleSheet.create({
   container: {
     width: '100%',

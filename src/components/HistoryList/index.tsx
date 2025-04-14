@@ -6,6 +6,17 @@ import HistoryItem from './components/HistoryItem';
 import EmptyList from 'components/EmptyList';
 import { getItemKey } from 'utils/getItemKey';
 
+/**
+ * Component that displays a list of search history items.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {Place[]} props.history - Array of place objects representing search history
+ * @param {Function} props.onPlaceSelect - Callback function when a place is selected
+ * @param {boolean} props.visible - Whether the history list should be visible
+ * @returns {React.ReactElement|null} The rendered HistoryList component or null if not visible
+ */
+
 const HistoryList: React.FC<HistoryListProps> = ({
   history,
   onPlaceSelect,
