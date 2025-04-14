@@ -1,4 +1,3 @@
-// src/components/SearchInput/types.ts
 import { Place } from 'types';
 import {
   GooglePlaceData,
@@ -19,7 +18,7 @@ export interface HandlePressParams {
 }
 
 export interface GoogleAutocompleteConfig {
-  query: Query; // This will use the proper Query type from the library
+  query: Query;
   predefinedPlaces: GooglePlace[];
   autocompleteStyles: Partial<Styles>;
   textInputProps: TextInputProps;

@@ -47,7 +47,10 @@ const MapScreen: React.FC = () => {
   };
 
   const handleMapPress = (_event: MapPressEvent) => {
-    // If you need logging in development, consider using a logger utility or conditional logging or require to implement something with coordinate
+    // If you need logging in development,
+    // consider using a logger utility,
+    // Conditional logging or
+    // Require to implement something with coordinate
   };
 
   return (
