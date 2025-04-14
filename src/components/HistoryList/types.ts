@@ -1,3 +1,4 @@
+import { ListRenderItem } from 'react-native';
 import { Place } from 'types';
 
 export interface HistoryListProps {
@@ -10,3 +11,5 @@ export interface HistoryItemProps {
   item: Place;
   onPress: (place: Place) => void;
 }
+
+export type PlaceRenderItem = ListRenderItem<Place>;

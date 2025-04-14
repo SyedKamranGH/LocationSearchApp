@@ -9,10 +9,9 @@ import { TextInputProps, ReturnKeyTypeOptions } from 'react-native';
 import { GoogleAutocompleteConfig } from './types';
 import styles from './styles';
 
-// Fix the query object to use proper types
 const googleAutocompleteQuery: Query = {
   key: GOOGLE_MAPS_API_KEY || '',
-  language: 'en' as Language, // Type assertion to Language type
+  language: 'en' as Language,
 };
 
 const predefinedPlaces: Place[] = [];

@@ -17,7 +17,8 @@ const SearchInput: React.FC<SearchInputProps> = ({ onPlaceSelected }) => {
   } = searchInputConfig;
 
   const handlePress = useCallback(
-    ({ data, details }: HandlePressParams) => {
+    (params: HandlePressParams) => {
+      const { data, details } = params;
       if (details) {
         const formattedPlace = formatGooglePlace({
           ...data,
@@ -36,7 +37,10 @@ const SearchInput: React.FC<SearchInputProps> = ({ onPlaceSelected }) => {
       <GooglePlacesAutocomplete
         placeholder="Search for a location..."
         fetchDetails={true}
-        onPress={(data, details) => handlePress({ data, details })}
+        onPress={(data, details) => {
+          const params: HandlePressParams = { data, details };
+          handlePress(params);
+        }}
         query={query}
         styles={autocompleteStyles}
         predefinedPlaces={predefinedPlaces}
