@@ -7,6 +7,15 @@ import styles from './styles';
 import { searchInputConfig } from './config';
 import { SearchInputProps, HandlePressParams } from './types';
 
+/**
+ * Component that provides a search input with Google Places autocomplete functionality.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {Function} props.onPlaceSelected - Callback function when a place is selected
+ * @returns {React.ReactElement} The rendered SearchInput component
+ */
+
 const SearchInput: React.FC<SearchInputProps> = ({ onPlaceSelected }) => {
   const {
     query,
@@ -15,6 +24,14 @@ const SearchInput: React.FC<SearchInputProps> = ({ onPlaceSelected }) => {
     textInputProps,
     debounceDelay,
   } = searchInputConfig;
+
+  /**
+   * Handles when a place is selected from the autocomplete results
+   *
+   * @param {Object} params - The selected place data
+   * @param {GooglePlaceData} params.data - The Google Place data
+   * @param {GooglePlaceDetail|null} params.details - The Google Place details
+   */
 
   const handlePress = useCallback(
     (params: HandlePressParams) => {
