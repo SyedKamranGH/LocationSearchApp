@@ -1,6 +1,14 @@
 import { Place } from 'types';
 import { addToSearchHistory } from 'utils/storage';
 
+/**
+ * Saves a place to the search history.
+ *
+ * @async
+ * @function savePlaceToHistory
+ * @param {Place} place - The place to save to history
+ * @returns {Promise<void>}
+ */
 export const savePlaceToHistory = async (place: Place): Promise<void> => {
   try {
     await addToSearchHistory(place);
@@ -9,6 +17,13 @@ export const savePlaceToHistory = async (place: Place): Promise<void> => {
   }
 };
 
+/**
+ * Formats Google Place data into the application's Place format.
+ *
+ * @function formatGooglePlace
+ * @param {any} placeData - The Google Place data to format
+ * @returns {Place} The formatted Place object
+ */
 export const formatGooglePlace = (placeData: any): Place => {
   return {
     id: placeData.place_id || String(Date.now()),

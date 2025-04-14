@@ -1,5 +1,9 @@
 import { StyleSheet } from 'react-native';
 
+/**
+ * Styles for the EmptyList component.
+ */
+
 const styles = StyleSheet.create({
   emptyText: {
     textAlign: 'center',

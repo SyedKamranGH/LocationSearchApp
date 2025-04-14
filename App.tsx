@@ -1,6 +1,13 @@
 import React from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import MapScreen from './src/screens/MapScreen';
+
+/**
+ * Main application component.
+ * Renders the core app layout with MapScreen as the main content.
+ *
+ * @returns {React.ReactElement} The rendered App component
+ */
 
 const App = () => {
   return (

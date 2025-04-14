@@ -1,5 +1,9 @@
 import { StyleSheet } from 'react-native';
 
+/**
+ * Styles for the SearchInput component.
+ */
+
 const styles = StyleSheet.create({
   container: {
     width: '100%',
